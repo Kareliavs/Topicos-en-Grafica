@@ -22,7 +22,7 @@ cd boost_1_55_0/
 #include <regex>
 using namespace std;
 ///compila asi ---> g++ filtro.cpp -o a
-ofstream bow("BOW.txt"); 
+ofstream bow("BOWD.data"); 
 vector<double> top;
 vector< pair < double , string> >TopBOW;
 map <string, int>  BagOfWords;
@@ -130,7 +130,7 @@ map <string, int>  LeerArchivo(string doc) {
         }
     }
     Documento d;
-    d.nombre=doc;
+    d.nombre=doc/*-doc[doc.size()-1]-doc[doc.size()-2]-doc[doc.size()-3]-doc[doc.size()-4]*/;
     d.numPal=num;
     d.BOW_propio=BagOfWords_Doc;
     Corpus.push_back(d);
@@ -173,26 +173,39 @@ void LlenarMatriz()
 	}
 
 	//////
-	cout<<endl<<endl<<"\t";
-	bow<<"\t";
+	//cout<<endl<<endl<<";";
+	//bow<<"";E
 	for(iter=BagOfWords.begin(); iter!=BagOfWords.end();iter++)
-		{	cout<<iter->first<<"\t";
-			bow<<iter->first<<"\t";
+		{	
+			cout<<iter->first;
+			bow<<iter->first;
+			if(top.size()!=BagOfWords.size()-1)
+			{
+				cout<<";";
+				bow<<";";
+			}
 			top.push_back(0);
 		}
 	cout<<endl;
 	bow<<endl;
 	for(int i=0;i<vect.size();i++)
-	{	cout<<Corpus[i].nombre<<"\t";
-		bow<<Corpus[i].nombre<<"\t";
+	{	cout<<Corpus[i].nombre;
+		bow<<Corpus[i].nombre;
+		if(i!=vect.size()-1)
+		{
+			cout<<";";
+			bow<<";";
+		}
 		for(int j=0;j<vect[i].size();j++)
 		{
 			//cout<<vect[i][j]<<"\t";
-			top[j]+=vect[i][j],
-			bow<<vect[i][j]<<"\t";
+			top[j]+=vect[i][j];
+			bow<<vect[i][j];
+			//if(j!=vect[i].size()-1)
+				bow<<";";
 		}
-		cout<<endl;
-		bow<<endl;
+		cout<<0<<endl;
+		bow<<0<<endl;
 	}
 	int i=0;
 	for(iter=BagOfWords.begin(); iter!=BagOfWords.end();iter++)
@@ -233,7 +246,9 @@ int main()
     	//std::cout << ent->d_name << '\n';
   		closedir (dir);
 	}
-
+	bow<<"DY"<<endl;
+	bow<<Corpus.size()<<endl;
+	bow<<BagOfWords.size()<<endl;
 	LlenarMatriz();
 	
 	bow.close();
