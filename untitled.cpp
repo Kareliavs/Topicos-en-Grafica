@@ -23,7 +23,8 @@ cd boost_1_55_0/
 using namespace std;
 ///compila asi ---> g++ filtro.cpp -o a
 ofstream bow("BOW.txt"); 
-
+vector<double> top;
+vector< pair < double , string> >TopBOW;
 map <string, int>  BagOfWords;
 map <string, int>  NumDocPal;
 map <string,  map <string, double> >  matriz;
@@ -177,6 +178,7 @@ void LlenarMatriz()
 	for(iter=BagOfWords.begin(); iter!=BagOfWords.end();iter++)
 		{	cout<<iter->first<<"\t";
 			bow<<iter->first<<"\t";
+			top.push_back(0);
 		}
 	cout<<endl;
 	bow<<endl;
@@ -185,11 +187,28 @@ void LlenarMatriz()
 		bow<<Corpus[i].nombre<<"\t";
 		for(int j=0;j<vect[i].size();j++)
 		{
-			cout<<vect[i][j]<<"\t";
+			//cout<<vect[i][j]<<"\t";
+			top[j]+=vect[i][j],
 			bow<<vect[i][j]<<"\t";
 		}
 		cout<<endl;
 		bow<<endl;
+	}
+	int i=0;
+	for(iter=BagOfWords.begin(); iter!=BagOfWords.end();iter++)
+	{
+		TopBOW.push_back(make_pair(top[i],iter->first));
+		i++;
+	}
+	sort(TopBOW.begin(),TopBOW.end());
+	/*for(int i=0;i<TopBOW.size();i++)
+	{
+		cout<<TopBOW[i].second<<" -> "<<TopBOW[i].first<<endl;
+	}
+	cout<<"reverse"<<endl;*/
+	for(int i=TopBOW.size()-1;i>=TopBOW.size()-5;i--)
+	{
+		cout<<TopBOW[i].second<<" -> "<<TopBOW[i].first<<endl;
 	}
 
 }
